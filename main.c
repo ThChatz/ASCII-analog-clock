@@ -131,9 +131,8 @@ void draw_clock(canvas *c){
     int t;
 
     t = time(NULL);
-    h = ((t / 3600) + 3) % 12;
+    h = ((t / 3600) + 3) % 12;	/* +3 for timezone lmoa */
     m = (t / 60) % 60;
-    /* printf("%d:%d\n", h, m); */
 
     M = M_hours(h);
     draw_function(&f_hour_hand, c, 'H');
