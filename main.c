@@ -55,7 +55,6 @@ int f_hour_hand(vector2d p){
 }
 
 int f_min_hand(vector2d p){
-    printf("%d\n", m);
     int quadrant = m / 15, q;
     switch(quadrant){
     case 0:
