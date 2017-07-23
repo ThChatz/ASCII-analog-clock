@@ -55,13 +55,14 @@ int f_hour_hand(vector2d p){
 }
 
 int f_min_hand(vector2d p){
+    printf("%d\n", m);
     int quadrant = m / 15, q;
     switch(quadrant){
     case 0:
 	q = p.x - CENTER.x >= 0 && p.y - CENTER.y <= 0;
 	break;
     case 1:
-	q = p.x - CENTER.x <= 0 && p.y - CENTER.y >= 0;
+	q = p.x - CENTER.x >= 0 && p.y - CENTER.y >= 0;
 	break;
     case 2:
 	q = p.x - CENTER.x <= 0 && p.y - CENTER.y >= 0;
@@ -71,9 +72,9 @@ int f_min_hand(vector2d p){
 	break;
     }
 
-    int in_range = (SQUARE(p.x - CENTER.x) + SQUARE(p.y - CENTER.y)) <= SQUARE(MIN_HAND_LENGTH);
-    int on_line = (p.y == M * (p.x - CENTER.x) + CENTER.y) || (M == INF && p.x == CENTER.x);
-    return q && in_range && on_line;
+     int in_range = (SQUARE(p.x - CENTER.x) + SQUARE(p.y - CENTER.y)) <= SQUARE(MIN_HAND_LENGTH);
+     int on_line = (p.y == M * (p.x - CENTER.x) + CENTER.y) || (M == INF && p.x == CENTER.x);
+     return q && in_range && on_line;
 }
 
 
