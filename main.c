@@ -51,9 +51,9 @@ int f_hour_hand(vector2d p){
 	q = p.x - CENTER.x <= 0 && p.y - CENTER.y <= 0;
 	break;
     }
-
+    float M = M_hours(h);
     int in_range = (SQUARE(p.x - CENTER.x) + SQUARE(p.y - CENTER.y)) <= SQUARE(HOUR_HAND_LENGTH);
-    int on_line = (p.y == M_hours(h) * (p.x - CENTER.x) + CENTER.y) || (M == INF && p.x == CENTER.x);
+    int on_line = (p.y == M * (p.x - CENTER.x) + CENTER.y) || (M == INF && p.x == CENTER.x);
     return q && in_range && on_line;
 }
 
@@ -73,9 +73,9 @@ int f_min_hand(vector2d p){
 	q = p.x - CENTER.x <= 0 && p.y - CENTER.y <= 0;
 	break;
     }
-
+    float M = M_minutes(m);
     int in_range = (SQUARE(p.x - CENTER.x) + SQUARE(p.y - CENTER.y)) <= SQUARE(MIN_HAND_LENGTH);
-    int on_line = (p.y == M_minutes(m) * (p.x - CENTER.x) + CENTER.y) || (M == INF && p.x == CENTER.x);
+    int on_line = (p.y == M * (p.x - CENTER.x) + CENTER.y) || (M == INF && p.x == CENTER.x);
     return q && in_range && on_line;
 }
 
@@ -96,9 +96,9 @@ int f_sec_hand(vector2d p){
 	q = p.x - CENTER.x <= 0 && p.y - CENTER.y <= 0;
 	break;
     }
-
+    float M = M_minutes(s);
     int in_range = (SQUARE(p.x - CENTER.x) + SQUARE(p.y - CENTER.y)) <= SQUARE(SEC_HAND_LENGTH);
-    int on_line = (p.y == M_minutes(s) * (p.x - CENTER.x) + CENTER.y) || (M == INF && p.x == CENTER.x);
+    int on_line = (p.y == M * (p.x - CENTER.x) + CENTER.y) || (M == INF && p.x == CENTER.x);
     return q && in_range && on_line;
 }
 
