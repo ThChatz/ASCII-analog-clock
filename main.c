@@ -9,6 +9,7 @@
 
 #define HOUR_HAND_LENGTH 5
 #define MIN_HAND_LENGTH 10
+#define SEC_HAND_LENGTH 13
 
 #define INF 1.0 / 0.0
 
@@ -16,8 +17,10 @@
 
 
 float M;
-int len, quadr, h, m;
+int len, quadr, h, m, s;
 
+float M_hours(int);
+float M_minutes(int);
 
 int f_circle(vector2d p){
     return (SQUARE(RADIUS) == SQUARE(p.x - CENTER.x) + SQUARE(p.y - CENTER.y));
@@ -50,7 +53,7 @@ int f_hour_hand(vector2d p){
     }
 
     int in_range = (SQUARE(p.x - CENTER.x) + SQUARE(p.y - CENTER.y)) <= SQUARE(HOUR_HAND_LENGTH);
-    int on_line = (p.y == M * (p.x - CENTER.x) + CENTER.y) || (M == INF && p.x == CENTER.x);
+    int on_line = (p.y == M_hours(h) * (p.x - CENTER.x) + CENTER.y) || (M == INF && p.x == CENTER.x);
     return q && in_range && on_line;
 }
 
@@ -72,9 +75,33 @@ int f_min_hand(vector2d p){
     }
 
     int in_range = (SQUARE(p.x - CENTER.x) + SQUARE(p.y - CENTER.y)) <= SQUARE(MIN_HAND_LENGTH);
-    int on_line = (p.y == M * (p.x - CENTER.x) + CENTER.y) || (M == INF && p.x == CENTER.x);
+    int on_line = (p.y == M_minutes(m) * (p.x - CENTER.x) + CENTER.y) || (M == INF && p.x == CENTER.x);
     return q && in_range && on_line;
 }
+
+
+int f_sec_hand(vector2d p){
+    int quadrant = s / 15, q;
+    switch(quadrant){
+    case 0:
+	q = p.x - CENTER.x >= 0 && p.y - CENTER.y <= 0;
+	break;
+    case 1:
+	q = p.x - CENTER.x >= 0 && p.y - CENTER.y >= 0;
+	break;
+    case 2:
+	q = p.x - CENTER.x <= 0 && p.y - CENTER.y >= 0;
+	break;
+    case 3:
+	q = p.x - CENTER.x <= 0 && p.y - CENTER.y <= 0;
+	break;
+    }
+
+    int in_range = (SQUARE(p.x - CENTER.x) + SQUARE(p.y - CENTER.y)) <= SQUARE(SEC_HAND_LENGTH);
+    int on_line = (p.y == M_minutes(s) * (p.x - CENTER.x) + CENTER.y) || (M == INF && p.x == CENTER.x);
+    return q && in_range && on_line;
+}
+
 
 
 float M_hours(int hour){
@@ -133,12 +160,11 @@ void draw_clock(canvas *c){
     t = time(NULL);
     h = ((t / 3600) + 3) % 12;	/* +3 for timezone lmoa */
     m = (t / 60) % 60;
+    s = t % 60;
 
-    M = M_hours(h);
-    draw_function(&f_hour_hand, c, 'H');
-    M = M_minutes(m);
+    draw_function(&f_sec_hand, c, 'S');
     draw_function( &f_min_hand, c, 'M');
-
+    draw_function(&f_hour_hand, c, 'H');
 
 }
 
